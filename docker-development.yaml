@@ -1,0 +1,19 @@
+version: "3"
+services:
+  backend:
+    volumes:
+      - ./backend:/usr/src/app
+      - ./generic:/usr/src/node_modules/@checkers/generic
+    build:
+      target: development
+    command: [npm, run, start:dev]
+  client:
+    volumes:
+      - ./client:/usr/src/app
+      - ./generic:/usr/src/node_modules/@checkers/generic
+    build:
+      target: development
+    environment:
+      - SERVER_URL=http://${BACKEND_API_HOST}:${BACKEND_API_PORT}
+      - FRONTEND_HOST=0.0.0.0
+    command: [npm, run, start:dev]

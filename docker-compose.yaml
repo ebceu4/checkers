@@ -1,0 +1,59 @@
+version: "3"
+services:
+  redis-master:
+    container_name: redis-master
+    logging:
+      driver: none
+    expose:
+      - 6379
+    build:
+      context: ./redis/master
+      args:
+        REDIS_MASTER_PASS: ${REDIS_MASTER_PASS}
+  # redis-readonly:
+  #   container_name: redis-readonly
+  #   expose:
+  #     - 6379
+  #   build:
+  #     context: ./redis/readonly
+  #     args:
+  #       REDIS_MASTER_HOST: redis-master
+  #       REDIS_MASTER_PASS: ${REDIS_MASTER_PASS}
+  # redis-commander:
+  #   container_name: redis-commander
+  #   hostname: redis-commander
+  #   image: rediscommander/redis-commander:latest
+  #   restart: always
+  #   environment:
+  #     - VIEW_JSON_DEFAULT=all
+  #     - REDIS_HOSTS=local:redis-master:6379:0:${REDIS_MASTER_PASS},local:redis-readonly:6379
+  #   ports:
+  #     - 8081:8081
+  backend:
+    container_name: backend
+    restart: always
+    build:
+      context: ./backend
+    command: [npm, run, start]
+    environment:
+      - REDIS_URL=${REDIS_URL}
+      - BOT_TOKEN=${BOT_TOKEN}
+      - BACKEND_API_PORT=${BACKEND_API_PORT}
+      - FRONTEND_HOST=${FRONTEND_HOST}
+      - FRONTEND_PORT=${FRONTEND_PORT}
+    ports:
+      - ${BACKEND_API_PORT}:${BACKEND_API_PORT}
+  client:
+    container_name: client
+    restart: always
+    build:
+      context: ./client
+      args:
+        FRONTEND_PORT: ${FRONTEND_PORT}
+    command: [npm, run, start]
+    environment:
+      - SERVER_URL=${SERVER_URL}
+      - FRONTEND_HOST=${FRONTEND_HOST}
+      - FRONTEND_PORT=${FRONTEND_PORT}
+    ports:
+      - ${FRONTEND_PORT}:${FRONTEND_PORT}

@@ -1,0 +1,25 @@
+{
+  "compilerOptions": {
+    "target": "es6",
+    "module": "CommonJS",
+    "jsx": "react",
+    "strict": true,
+    "esModuleInterop": true,
+    "allowJs": true,
+    "declaration": true,
+    "forceConsistentCasingInFileNames": true,
+    "outDir": "dist",
+    "lib": [
+      "esnext",
+      "dom",
+      "dom.iterable",
+      "scripthost"
+    ]
+  },
+  "include": [
+    "./src/**/*",
+  ],
+  "exclude": [
+    "./node_modules"
+  ]
+}
