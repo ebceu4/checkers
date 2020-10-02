@@ -4,6 +4,10 @@ const webpack = require('webpack')
 
 const dotenv = () => require('dotenv').config({ path: path.join(__dirname, '../.env') })
 
+console.log({
+  SERVER_URL: process.env.SERVER_URL
+})
+
 module.exports = env => {
   return ({
     entry: './src/index.ts',
@@ -27,11 +31,8 @@ module.exports = env => {
         {
           test: /\.s[ac]ss$/i,
           use: [
-            // Creates `style` nodes from JS strings
             'style-loader',
-            // Translates CSS into CommonJS
             'css-loader',
-            // Compiles Sass to CSS
             'sass-loader',
           ],
         },
@@ -46,7 +47,7 @@ module.exports = env => {
     },
     plugins: [
       new HtmlWebpackPlugin({ template: './public/index.html' }),
-      new webpack.EnvironmentPlugin(['SERVER_URL']),
+      new webpack.EnvironmentPlugin(['DEV_SERVER_WS_URI']),
     ],
   })
 }

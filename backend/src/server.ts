@@ -94,7 +94,7 @@ const client = (server: io.Server, socket: io.Socket, redis: IRedis) => {
 }
 
 export const server = () => {
-  const server = io(process.env.BACKEND_API_PORT!) //.adapter(redisAdapter({ host: process.env.REDIS_HOST, port: 6379 }))
+  const server = io(process.env.INTERNAL_BACKEND_WS_PORT!) //.adapter(redisAdapter({ host: process.env.REDIS_HOST, port: 6379 }))
   const redisSubscriber = new Redis(process.env.REDIS_URL)
   const redisIO = new Redis(process.env.REDIS_URL)
 

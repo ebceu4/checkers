@@ -1,5 +1,5 @@
 export interface ILogger {
-  info(value: string, ...args: any): void
+  info(value: string, ...args: any[]): void
 }
 
 export interface INotifier {

@@ -2,18 +2,22 @@ version: "3"
 services:
   backend:
     volumes:
-      - ./backend:/usr/src/app
-      - ./generic:/usr/src/node_modules/@checkers/generic
+      - ./backend/src:/usr/local/backend/src
+      - ./generic:/usr/local/backend/node_modules/@checkers/generic
     build:
       target: development
-    command: [npm, run, start:dev]
+    command: npm run start:dev
   client:
     volumes:
-      - ./client:/usr/src/app
-      - ./generic:/usr/src/node_modules/@checkers/generic
+      - ./client/src:/usr/local/client/src
+      - ./client/public:/usr/local/client/public
+      - ./generic:/usr/local/client/node_modules/@checkers/generic
     build:
       target: development
     environment:
-      - SERVER_URL=http://${BACKEND_API_HOST}:${BACKEND_API_PORT}
+      - DEV_BACKEND_WS_PORT=${DEV_BACKEND_WS_PORT}
       - FRONTEND_HOST=0.0.0.0
-    command: [npm, run, start:dev]
+      - FRONTEND_PORT=${FRONTEND_PORT}
+    ports:
+      - ${FRONTEND_PORT}:${FRONTEND_PORT}
+    command: npm run start:dev
