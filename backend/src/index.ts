@@ -3,8 +3,7 @@ import { server } from './server'
 
 console.log('BACKEND BOOT', {
   INTERNAL_BACKEND_WS_PORT: process.env.INTERNAL_BACKEND_WS_PORT,
-  FRONTEND_PORT: process.env.FRONTEND_PORT,
-  FRONTEND_HOST: process.env.FRONTEND_HOST,
+  DOMAIN: process.env.DOMAIN,
   REDIS_URL: process.env.REDIS_URL,
 })
 

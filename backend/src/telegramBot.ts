@@ -8,7 +8,7 @@ export const telegramBot = () => {
     const { callbackQuery } = ctx
     console.log('gameQuery', callbackQuery)
     const token = stringifyCallbackQueryToken({ id: callbackQuery?.inline_message_id!, user: callbackQuery?.from! })
-    ctx.answerGameQuery(`http://${process.env.FRONTEND_HOST}:${process.env.FRONTEND_PORT}?${token}`)
+    ctx.answerGameQuery(`https://${process.env.DOMAIN}?${token}`)
     const markup = JSON.stringify({
       inline_keyboard: [
         [{ text: 'BOOM!', callback_game: 'Checkers' }],
