@@ -1,0 +1,46 @@
+version: "3"
+services:
+  redis-master:
+    container_name: redis-master
+    logging:
+      driver: none
+    expose:
+      - 6379
+    build:
+      context: ./redis/master
+      args:
+        REDIS_MASTER_PASS: ${REDIS_MASTER_PASS}
+  backend:
+    container_name: backend
+    depends_on:
+      - redis-master
+    restart: always
+    build:
+      context: ./
+      dockerfile: ./backend/Dockerfile
+      args:
+        NODE_ENV: ${NODE_ENV}
+    environment:
+      - NODE_ENV=${NODE_ENV}
+      - REDIS_URL=${REDIS_URL}
+      - TOKEN_ENCRYPTION_SECRET=${TOKEN_ENCRYPTION_SECRET}
+      - TOKEN_ENCRYPTION_SALT=${TOKEN_ENCRYPTION_SALT}
+      - BOT_TOKEN=${BOT_TOKEN}
+      - GAME_QUERY_URI=${GAME_QUERY_URI}
+      - INTERNAL_BACKEND_WS_PORT=${INTERNAL_BACKEND_WS_PORT}
+    expose:
+      - ${INTERNAL_BACKEND_WS_PORT}
+  client:
+    container_name: client
+    restart: always
+    depends_on:
+      - backend
+    build:
+      context: ./
+      dockerfile: ./client/Dockerfile
+      args:
+        NODE_ENV: ${NODE_ENV}
+    environment:
+      - NODE_ENV=${NODE_ENV}
+    ports:
+      - 80:80

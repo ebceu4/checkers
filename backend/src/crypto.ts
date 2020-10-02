@@ -1,7 +1,11 @@
 import crypto from 'crypto'
 
 const algorithm = 'aes-256-ctr'
-const secretKey = 'vOVH6sdmpNWjRRIqCc7rdxs01lwHzfr3'
+const secretKey = crypto.scryptSync(
+  process.env.TOKEN_ENCRYPTION_SECRET!,
+  process.env.TOKEN_ENCRYPTION_SALT!,
+  32
+)
 
 const zero = Buffer.from([0])
 

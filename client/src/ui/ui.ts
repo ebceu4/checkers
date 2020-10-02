@@ -1,6 +1,5 @@
 import { AorB, CheckersGameReadOnly, CheckersGameUnit, GameMove, Position, GameMoveResult } from '@checkers/generic'
 import { Svg } from '@svgdotjs/svg.js'
-import { userInfo } from 'os'
 import { ILogger, INotifier } from '../types'
 import { createBoard, BoardCell } from './board'
 import { createUnits, Unit } from './units'
@@ -41,9 +40,6 @@ export const createGameUI = ({ window, game, svg, logger, notifier, onMoveSelect
       margin: 0.05,
     }
     _board.resize(params)
-
-    logger.info(`Update, units: ${_units !== null}`)
-
     if (_units) {
       _units.resize({ ...params, unitMargin: 0.17 })
     }

@@ -2,18 +2,20 @@ const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const webpack = require('webpack')
 
-const dotenv = () => require('dotenv').config({ path: path.join(__dirname, '../.env') })
-
 console.log({
-  SERVER_URL: process.env.SERVER_URL
+  NODE_ENV: process.env.NODE_ENV,
+  INTERNAL_BACKEND_WS_PORT: process.env.INTERNAL_BACKEND_WS_PORT,
+  WEBPACK_DEV_SERVER_HOST: process.env.WEBPACK_DEV_SERVER_HOST,
+  WEBPACK_DEV_SERVER_PORT: process.env.WEBPACK_DEV_SERVER_PORT,
 })
 
 module.exports = env => {
   return ({
+    mode: process.env.NODE_ENV !== 'production' ? 'development' : 'production',
     entry: './src/index.ts',
     devServer: {
-      host: process.env.FRONTEND_HOST, // process.env.IS_DOCKER ? '0.0.0.0' : process.env.FRONTEND_HOST || dotenv().parsed.FRONTEND_HOST,
-      port: process.env.FRONTEND_PORT, // || dotenv().parsed.FRONTEND_PORT,
+      host: '0.0.0.0',
+      port: process.env.WEBPACK_DEV_SERVER_PORT,
       disableHostCheck: true,
     },
     stats: 'errors-only',
@@ -47,7 +49,7 @@ module.exports = env => {
     },
     plugins: [
       new HtmlWebpackPlugin({ template: './public/index.html' }),
-      new webpack.EnvironmentPlugin(['DEV_SERVER_WS_URI']),
+      new webpack.EnvironmentPlugin(['INTERNAL_BACKEND_WS_PORT', 'WEBPACK_DEV_SERVER_HOST']),
     ],
   })
 }

@@ -1,5 +1,3 @@
-import { Button } from 'telegraf/typings/markup'
-
 export const toBase64 = (data: Buffer) =>
   data.toString('base64')
 

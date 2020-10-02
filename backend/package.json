@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node dist/index.js",
     "start:dev": "rm -fr dist && webpack --watch & (wait-on dist/index.js && nodemon --watch dist dist/index.js)",
-    "start:dev:local": "env-cmd -f ../.env npm run start:dev",
+    "start:dev:local": "env-cmd -f ../.env.development npm run start:dev",
     "build": "webpack"
   },
   "keywords": [],

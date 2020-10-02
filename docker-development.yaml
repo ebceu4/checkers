@@ -6,6 +6,8 @@ services:
       - ./generic:/usr/local/backend/node_modules/@checkers/generic
     build:
       target: development
+    ports:
+      - ${INTERNAL_BACKEND_WS_PORT}:${INTERNAL_BACKEND_WS_PORT}
     command: npm run start:dev
   client:
     volumes:
@@ -15,9 +17,9 @@ services:
     build:
       target: development
     environment:
-      - DEV_BACKEND_WS_PORT=${DEV_BACKEND_WS_PORT}
-      - FRONTEND_HOST=0.0.0.0
-      - FRONTEND_PORT=${FRONTEND_PORT}
+      - WEBPACK_DEV_SERVER_HOST=${WEBPACK_DEV_SERVER_HOST}
+      - WEBPACK_DEV_SERVER_PORT=${WEBPACK_DEV_SERVER_PORT}
+      - INTERNAL_BACKEND_WS_PORT=${INTERNAL_BACKEND_WS_PORT}
     ports:
-      - ${FRONTEND_PORT}:${FRONTEND_PORT}
+      - ${WEBPACK_DEV_SERVER_PORT}:${WEBPACK_DEV_SERVER_PORT}
     command: npm run start:dev

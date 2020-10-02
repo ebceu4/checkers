@@ -1,34 +1,16 @@
 dev:
-	#docker-compose -f docker-compose.yaml -f docker-development.yaml up --build
-	docker-compose -f docker-compose.yaml -f docker-development.yaml up
+	docker-compose --env-file ./.env.development -f docker-base.yaml -f docker-development.yaml up --build
 .PHONY: dev
 
-dev-backend:
-	docker-compose -f docker-compose.yaml -f docker-development.yaml up --build backend
-.PHONY: dev-backend
-
-dev-client:
-	docker-compose -f docker-compose.yaml -f docker-development.yaml up --build client
-.PHONY: dev-client
-
-prod-backend:
-	docker-compose up --build backend
-.PHONY: prod-backend
-
-prod-client:
-	docker-compose up --build client
-.PHONY: prod-client
-
 prod:
-	docker-compose up --build
+	docker-compose --env-file ./.env.production -f docker-base.yaml -f docker-production.yaml up --build
 .PHONY: prod
 
-build:
-	docker-compose -f docker-compose.yaml -f docker-development.yaml build client
-.PHONY: build
+down:
+	docker-compose --env-file ./.env.development -f docker-base.yaml -f docker-development.yaml -f docker-production.yaml down
+.PHONY: down
 
 link:
-	#cd ./generic; npm run build;
 	cd ./backend; npm link ../generic;
 	cd ./client; npm link ../generic;
 .PHONY: link

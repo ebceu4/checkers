@@ -3,8 +3,7 @@ import { server } from './server'
 
 console.log('BACKEND BOOT', {
   INTERNAL_BACKEND_WS_PORT: process.env.INTERNAL_BACKEND_WS_PORT,
-  DOMAIN: process.env.DOMAIN,
-  REDIS_URL: process.env.REDIS_URL,
+  GAME_QUERY_URI: process.env.GAME_QUERY_URI,
 })
 
 telegramBot()

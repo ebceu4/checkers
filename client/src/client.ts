@@ -29,7 +29,9 @@ type createClientParams = {
 }
 
 export const createClient = ({ wsUri, logger, token }: createClientParams) => {
-  const socket = io({ port: process.env.DEV_BACKEND_WS_PORT })
+  const address = `http://${process.env.WEBPACK_DEV_SERVER_HOST}:${process.env.INTERNAL_BACKEND_WS_PORT}`
+  logger.info(`Connecting to ${address}`)
+  const socket = io(address)
   const client = clientSide({ socket, logger })
 
   socket.on('error', (e: any) => {

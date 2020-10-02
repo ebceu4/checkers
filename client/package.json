@@ -5,7 +5,7 @@
   "scripts": {
     "start": "webpack-dev-server",
     "start:dev": "webpack-dev-server",
-    "start:dev:local": "env-cmd -f ../.env npm run start:dev",
+    "start:dev:local": "env-cmd -f ../.env.development npm run start:dev",
     "build": "webpack"
   },
   "keywords": [],

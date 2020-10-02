@@ -3,6 +3,7 @@ ARG SERVICE=backend
 
 FROM node:14.11.0-alpine3.11 as development
 ARG SERVICE
+ARG NODE_ENV
 ENV PACKAGE=./${SERVICE}/*.json
 ENV WEBPACK=./${SERVICE}/webpack.config.js
 

@@ -8,18 +8,20 @@ const logger: ILogger = {
   info: (value, ...args) => {
     const info = document.querySelector('.infoInline')! as HTMLElement
     info.innerHTML = (info.innerHTML ?? '') + '<br/>' + value
-    if (args && args.length > 0)
-      info.innerHTML = (info.innerHTML ?? '') + '<br/>' + JSON.stringify(args)
-
+    if (args && args.length > 0 && args.some(x => !!x && Object.keys(x).length > 0)) {
+      args.forEach(a => {
+        info.innerHTML = (info.innerHTML ?? '') + '<br/>' + JSON.stringify(a)
+      })
+    }
     console.log(value, ...args)
   }
 }
 
 
 logger.info('CLIENT BOOT', {
-  DEV_BACKEND_WS_PORT: process.env.DEV_BACKEND_WS_PORT
+  INTERNAL_BACKEND_WS_PORT: process.env.INTERNAL_BACKEND_WS_PORT,
+  WEBPACK_DEV_SERVER_HOST: process.env.WEBPACK_DEV_SERVER_HOST,
 })
-
 
 const notifier: INotifier = {
   showPermanent(text: string) {

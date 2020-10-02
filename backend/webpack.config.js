@@ -2,6 +2,10 @@ const path = require('path')
 const webpack = require('webpack')
 const nodeExternals = require('webpack-node-externals')
 
+console.log({
+  NODE_ENV: process.env.NODE_ENV,
+})
+
 module.exports = () => {
   return ({
     mode: process.env.NODE_ENV !== 'production' ? 'development' : 'production',

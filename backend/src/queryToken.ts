@@ -25,10 +25,14 @@ export const stringifyCallbackQueryToken = ({ id, user }: CallbackQueryToken) =>
 }
 
 export const parseCallbackQueryToken = (raw: string) => {
-  const buffer = decrypt(fromBase64(raw.replace(/[\.\_\-]/g, (x: string) => ({ '.': '+', '_': '/', '-': '=' } as any)[x])))
-  const { value: id, rest: r1 } = shortStringFromBytes(buffer)
-  const userId = numberFromBytes(r1)
-  const { value: first_name, rest: r2 } = shortStringFromBytes(r1.slice(8))
-  const { value: username } = r2.length !== 0 ? shortStringFromBytes(r2) : { value: undefined }
-  return { id, user: { id: userId, first_name, username } } as CallbackQueryToken
+  try {
+    const buffer = decrypt(fromBase64(raw.replace(/[\.\_\-]/g, (x: string) => ({ '.': '+', '_': '/', '-': '=' } as any)[x])))
+    const { value: id, rest: r1 } = shortStringFromBytes(buffer)
+    const userId = numberFromBytes(r1)
+    const { value: first_name, rest: r2 } = shortStringFromBytes(r1.slice(8))
+    const { value: username } = r2.length !== 0 ? shortStringFromBytes(r2) : { value: undefined }
+    return { id, user: { id: userId, first_name, username } } as CallbackQueryToken
+  } catch {
+    throw new Error('Invalid CallbackQueryToken')
+  }
 }
