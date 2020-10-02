@@ -53,6 +53,7 @@ services:
       dockerfile: ./client/Dockerfile
       args:
         INTERNAL_BACKEND_WS_PORT: ${INTERNAL_BACKEND_WS_PORT}
+        DOMAIN: ${DOMAIN}
     environment:
       - FRONTEND_HOST=${FRONTEND_HOST}
       - FRONTEND_PORT=${FRONTEND_PORT}

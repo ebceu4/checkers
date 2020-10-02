@@ -25,9 +25,10 @@ RUN npm run build
 
 FROM nginx:1.19.2-alpine as production
 ARG INTERNAL_BACKEND_WS_PORT
+ARG DOMAIN
 WORKDIR /etc/nginx/conf.d/
 COPY ./nginx/raw.conf ./raw.conf
-RUN envsubst '${INTERNAL_BACKEND_WS_PORT}' < raw.conf > default.conf
+RUN envsubst '${INTERNAL_BACKEND_WS_PORT}, ${DOMAIN}' < raw.conf > default.conf
 RUN rm raw.conf
 COPY --from=build /usr/local/client/dist /usr/share/nginx/html
 
