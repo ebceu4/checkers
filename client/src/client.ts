@@ -29,9 +29,11 @@ type createClientParams = {
 }
 
 export const createClient = ({ wsUri, logger, token }: createClientParams) => {
-  const address = `http://${process.env.WEBPACK_DEV_SERVER_HOST}:${process.env.INTERNAL_BACKEND_WS_PORT}`
-  logger.info(`Connecting to ${address}`)
-  const socket = io(address)
+  const address = process.env.WEBPACK_DEV_SERVER_HOST
+    ? `http://${process.env.WEBPACK_DEV_SERVER_HOST}:${process.env.INTERNAL_BACKEND_WS_PORT}`
+    : undefined
+  logger.info(`Connecting to ${address || window.location.host}`)
+  const socket = address ? io(address) : io()
   const client = clientSide({ socket, logger })
 
   socket.on('error', (e: any) => {
