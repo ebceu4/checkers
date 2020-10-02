@@ -3,7 +3,7 @@ dev:
 .PHONY: dev
 
 prod:
-	docker-compose --env-file ./.env.production -f docker-base.yaml -f docker-production.yaml up --build
+	docker-compose --env-file ./.env.production -f docker-base.yaml -f docker-production.yaml up --remove-orphans --build
 .PHONY: prod
 
 down:
