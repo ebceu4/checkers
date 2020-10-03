@@ -8,11 +8,11 @@ export const telegramBot = () => {
     const { callbackQuery } = ctx
     console.log('gameQuery', callbackQuery)
     const token = stringifyCallbackQueryToken({ id: callbackQuery?.inline_message_id!, user: callbackQuery?.from! })
-    //ctx.answerGameQuery(`${process.env.GAME_QUERY_URI}?${token}`)
-    ctx.answerCbQuery(undefined, false, {
-      url: `${process.env.GAME_QUERY_URI}?${token}`,
-      cache_time: 1,
-    })
+    ctx.answerGameQuery(`${process.env.GAME_QUERY_URI}/${Math.random().toString(36).substr(2, 5)}/?${token}`)
+    // ctx.answerCbQuery(undefined, false, {
+    //   url: `${process.env.GAME_QUERY_URI}?${token}`,
+    //   cache_time: 1,
+    // })
     const markup = JSON.stringify({
       inline_keyboard: [
         [{ text: 'BOOM!', callback_game: 'Checkers' }],
