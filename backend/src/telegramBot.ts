@@ -1,8 +1,19 @@
+import { Data } from '@checkers/generic'
 import Telegraf from 'telegraf'
 import { stringifyCallbackQueryToken } from './queryToken'
+import { createRedisSubscriber } from './redisSubsciber'
 
 export const telegramBot = () => {
   const bot = new Telegraf(process.env.BOT_TOKEN!)
+
+  const { on } = createRedisSubscriber()
+
+
+  on('psubscribe')('checkers:', 'set', (data) => {
+    if (data) { 
+      const game = JSON.parse(data) as Data
+    }
+  })
 
   bot.gameQuery(async (ctx) => {
     const { callbackQuery } = ctx

@@ -36,8 +36,8 @@ const client = (server: io.Server, socket: io.Socket, redis: IRedis) => {
   const { on, emit } = serverSide(socket)
   on('handshake', async (token) => {
     try {
-      const { id: callbackQueryId, user } = parseCallbackQueryToken(token)
-      const gameKey = `checkers:${callbackQueryId}`
+      const { id, user } = parseCallbackQueryToken(token)
+      const gameKey = `checkers:${id}`
       const existing = (await gameData.get(gameKey).then(x => x ?? { id: gameKey } as Data)) ?? {}
       const handshakingUser = {
         id: user.id.toString(),
@@ -58,7 +58,6 @@ const client = (server: io.Server, socket: io.Socket, redis: IRedis) => {
       _player = player
       socket.join(existing.id)
       console.log(`SERVER: Client connected gameId:${existing.id}, player:${player}`)
-      console.log(`TOKEN`, token)
       emit()('handshake', { data: existing, moves, player })
       emit(s => s.broadcast.to(existing.id))('update', existing)
 
@@ -95,7 +94,6 @@ const client = (server: io.Server, socket: io.Socket, redis: IRedis) => {
 
 export const server = () => {
   const server = io(process.env.INTERNAL_BACKEND_WS_PORT!) //.adapter(redisAdapter({ host: process.env.REDIS_HOST, port: 6379 }))
-  //const redisSubscriber = new Redis(process.env.REDIS_URL)
   const redisIO = new Redis(process.env.REDIS_URL)
 
   return {
@@ -110,19 +108,3 @@ export const server = () => {
     }
   }
 }
-
-// const subscribeKeySet = async (redisSubscriber: IRedis, redisReader: IRedis, key: string, handler: (value: string | null) => void) => {
-//   const subsCount = await redisSubscriber.subscribe(`__keyspace@0__:${key}`)
-//   redisSubscriber.on('message', async (channel, message) => {
-//     if (message === 'set') {
-//       const value = await redisReader.get(key)
-//       handler(value)
-//     }
-//   })
-
-//   return () =>
-//     redisSubscriber.unsubscribe(`__keyspace@0__:${key}`)
-// }
-
-//__keyevent@0__:set
-//psubscribe '__key*__:*'
